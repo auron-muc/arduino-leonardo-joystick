@@ -22,8 +22,6 @@ void printSet() {
 int main()
 {
 
-    printf("%04x\n", ((1<<10)-1) );
-
 /*	printSet();
 	mySet.set(0,1);
 	printSet();
@@ -40,8 +38,25 @@ int main()
 	printSet();
 	
 	mySet.set(15,8,(uint8_t)0x00); */
-	mySet.set(0+5,10,(uint16_t)0x0333);
-	mySet.set(16+5,10,(uint16_t)0x03ff);
+
+    printf("e1f at 0 and 20\n"); 	
+	mySet.set(0,12,(uint16_t)0x0e1f);
+	mySet.set(16+4,12,(uint16_t)0x0e1f);
+	printSet();
+	
+	printf("expecting 0e1f: %04x\n", mySet.getWord(0,12));
+	printf("expecting 0e1f: %04x\n", mySet.getDWord(20,12));
+	printf("expecting 1f: %02x\n", mySet.getByte(0,8));
+	printf("expecting 1f: %02x\n", mySet.getBuffer()[0]);
+
+	mySet.set(0,32,(uint32_t)0x89ABCDEF);
+	printSet();
+
+	mySet.set(0,32,(uint32_t)0);
+	printSet();
+	
+	mySet.set(0+4,10,(uint16_t)0x0333);
+	mySet.set(16+4,10,(uint16_t)0x03ff);
 	printSet();
 	
 	return 0;

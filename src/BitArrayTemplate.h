@@ -32,7 +32,7 @@
 template <uint16_t MAX_BITS> class BitArrayTemplate 
 {
 	private:
-	    uint8_t* _buffer;
+	    uint8_t _buffer[((MAX_BITS+7) >> 3)]; // note: >>3 equals /8
 	
 	public:
 		BitArrayTemplate();
@@ -47,6 +47,7 @@ template <uint16_t MAX_BITS> class BitArrayTemplate
 		uint32_t getDWord(const uint8_t &offset, const int &num_bits);
 		uint8_t* getBuffer();
 		uint16_t getBufferSize();
+		void setBuffer(uint8_t *buf, const uint8_t length);
 };
 
 //================================================================================
@@ -56,7 +57,6 @@ template <uint16_t MAX_BITS> class BitArrayTemplate
 template <uint16_t MAX_BITS>
 BitArrayTemplate<MAX_BITS>::BitArrayTemplate() {
 
-	_buffer = (uint8_t*)malloc(((MAX_BITS+7) >> 3));  // note: >>3 equals /8
 	for (int i=0; i < ((MAX_BITS+7) >> 3); i++) {
 		_buffer[i]=0;
 	}
@@ -146,6 +146,17 @@ template <uint16_t MAX_BITS>
 uint16_t BitArrayTemplate<MAX_BITS>::getBufferSize() 
 {
 	return ((MAX_BITS+7) >> 3);
+}
+template <uint16_t MAX_BITS>
+void BitArrayTemplate<MAX_BITS>::setBuffer(uint8_t *buf, uint8_t length)
+{
+	if (length > getBufferSize()) {
+		length = getBufferSize();
+	}
+	
+	for (int i =0; i < length; i++) {
+		_buffer[i] = buf[i];
+	}
 }
 
 

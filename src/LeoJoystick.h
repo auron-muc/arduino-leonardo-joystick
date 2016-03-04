@@ -243,12 +243,12 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
 #if LEOJOY_NUMBUTTONS >0
 // 40 Buttons	
     0x05, 0x09,                    //     USAGE_PAGE (Button)
-    0x19, 0x01,                    //     USAGE_MINIMUM (Button 1)
-    0x29, LEOJOY_NUMBUTTONS,     //     USAGE_MAXIMUM (Button 40)
+    0x19, 0x01,                    //     USAGE_MINIMUM (Button 1) ( USAGE_MIN and _MAX replace the need for defining USAGE tags)
+    0x29, LEOJOY_NUMBUTTONS,       //     USAGE_MAXIMUM (Button X) ( so this is the same as USAGE 1, USAGE 2, USAGE 3,... USAGE X)
     0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
     0x25, 0x01,                    //     LOGICAL_MAXIMUM (1)
     0x75, 0x01,                    //     REPORT_SIZE (1)
-    0x95, LEOJOY_NUMBUTTONS,     //     REPORT_COUNT (40)
+    0x95, LEOJOY_NUMBUTTONS,       //     REPORT_COUNT (X)
     0x81, 0x02,                    //     INPUT (Data,Var,Abs)
 #endif
 
@@ -263,34 +263,15 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
 // Up to eight hat switches (4 bit)
     0x05, 0x01,                    //     USAGE_PAGE (Generic Desktop)
     0x09, 0x39,                    //     USAGE (Hat switch)
-#if LEOJOY_NUMHATS > 1
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 2
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 3
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 4
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 5
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 6
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
-#if LEOJOY_NUMHATS > 7
-    0x09, 0x39,                    //     USAGE (Hat switch)
-#endif
+    // turns out that according to USB spec the last specified usage will be used for further inputs
+	// so no need to add other USAGE (Hat switch)es
     0x15, 0x01,                    //     LOGICAL_MINIMUM (1)
     0x25, 0x08,                    //     LOGICAL_MAXIMUM (8)
     0x35, 0x00,                    //     PHYSICAL_MINIMUM (0)
     0x46, 0x3b, 0x01,              //     PHYSICAL_MAXIMUM (315)
     0x65, 0x14,                    //     UNIT (Eng Rot:Angular Pos)
     0x75, 0x04,                    //     REPORT_SIZE (4)
-    0x95, LEOJOY_NUMHATS,        //     REPORT_COUNT (1)
+    0x95, LEOJOY_NUMHATS,          //     REPORT_COUNT (X)
     0x81, 0x42,                    //     INPUT (Data,Var,Abs,Null)
 #endif
 	
